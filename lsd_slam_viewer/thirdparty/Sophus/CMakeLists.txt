@@ -21,8 +21,9 @@ ENDIF()
 
 ################################################################################
 # Add local path for finding packages, set the local version first
-set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" )
+set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" )
 list( APPEND CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules" )
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 
 ################################################################################
 # Create variables used for exporting in SophusConfig.cmake
@@ -30,8 +31,7 @@ set( Sophus_LIBRARIES "" )
 set( Sophus_INCLUDE_DIR ${PROJECT_SOURCE_DIR} )
 
 ################################################################################
-
-include(FindEigen3.cmake)
+find_package(Eigen3 REQUIRED)
 #find_package( Eigen3 REQUIRED )
 INCLUDE_DIRECTORIES( ${EIGEN3_INCLUDE_DIR} )
 SET( Sophus_INCLUDE_DIR ${Sophus_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} )

@@ -7,7 +7,7 @@ project(lsd_slam_core)
 #  Release : w/o debug symbols, w/ optimization
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel : w/o debug symbols, w/ optimization, stripped binaries
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
@@ -18,7 +18,9 @@ find_package(catkin REQUIRED COMPONENTS
   rosbag
 )
 
-find_package(Eigen REQUIRED)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+
+find_package(Eigen3 REQUIRED)
 find_package(X11 REQUIRED)
 include(cmake/FindG2O.cmake)
 include(cmake/FindSuiteParse.cmake)
@@ -103,12 +105,12 @@ target_link_libraries(lsdslam ${FABMAP_LIB} ${G2O_LIBRARIES} ${catkin_LIBRARIES}
 
 # build live ros node
 add_executable(live_slam src/main_live_odometry.cpp)
-target_link_libraries(live_slam lsdslam ${catkin_LIBRARIES} ${G2O_LIBRARIES})
+target_link_libraries(live_slam lsdslam ${catkin_LIBRARIES} ${G2O_LIBRARIES} X11)
 
 
 # build image node
-add_executable(dataset src/main_on_images.cpp)
-target_link_libraries(dataset lsdslam ${catkin_LIBRARIES} ${G2O_LIBRARIES})
+add_executable(lsd_run_image src/main_on_images.cpp)
+target_link_libraries(lsd_run_image  lsdslam ${catkin_LIBRARIES} ${G2O_LIBRARIES} X11)
 
 # TODO add INSTALL
 
